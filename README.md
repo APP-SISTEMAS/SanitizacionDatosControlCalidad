@@ -25,9 +25,12 @@ Comenzaremos con el proceso de extrusion, en la tabla *SIQM_ENC_AUDI_EXT* hay do
 
 ```sql
     SELECT ANCHO, ESPESOR FROM SIQM_ENC_AUDI_EXT
+
+    --Puede utilizar la funcion ISNUMERIC() para determinar si el valor es numerico, devuelve 1 en caso verdadero, 0 para falso.
+    SELECT  ANCHO, ESPESOR, ISNUMERIC(ANCHO), ISNUMERIC(ESPESOR) FROM SIQM_ENC_AUDI_EXT
 ```
 - [ ] Se pide sanitizar los valores del campo *Ancho* a que se manejen todos en la undia de de medida *mililmetros*.
-- [x] Convertir los valores del campo *Ancho* que se encuentra en pulgadas interpretados como texto a milimetros en valores numericos, ejemplo: **40 1/2" => 1028.7, 28 3/4" => 730.25, 24 => 609.6**
+- [ ] Convertir los valores del campo *Ancho* que se encuentra en pulgadas interpretados como texto a milimetros en valores numericos, ejemplo: **40 1/2" => 1028.7, 28 3/4" => 730.25, 24 => 609.6**
 - [ ] En los registros mas recientes los valores del campo *Ancho*, ya se encuentran en milimetros, se notará la deferencia ya que se visualizan valores altos como por ejemplo: **1016.00, 787.40, 584.00, 813.00**
 
 - [ ] Se pide sanitizar los valores del campo *Espesor* a que se manejen todos en la undia de de medida *micras*.
