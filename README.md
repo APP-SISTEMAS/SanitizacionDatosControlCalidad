@@ -49,9 +49,9 @@ Continuamos con el proceso de Laminado, en la tabla *SIQM_ENC_AUDI_LAMI* hay dos
     --Puede utilizar la funcion ISNUMERIC() para determinar si el valor es numerico, devuelve 1 en caso verdadero, 0 para falso.
     SELECT  ANCHO_MATERIAL, ESPESOR, ISNUMERIC(ANCHO_MATERIAL),  ISNUMERIC(ESPESOR) FROM SIQM_ENC_AUDI_LAMI
 ```
-- [ ] Se pide sanitizar los valores del campo *Ancho* a que se manejen todos en la unidad de de medida *mililmetros*.
-- [ ] Convertir los valores del campo *Ancho* que se encuentra en pulgadas interpretados como texto a milimetros en valores numericos
-- [ ] En los registros mas recientes los valores del campo *Ancho*, ya se encuentran en milimetros, se notará la deferencia ya que se visualizan valores altos.
+- [ ] Se pide sanitizar los valores del campo *Ancho_Material* a que se manejen todos en la unidad de de medida *mililmetros*.
+- [ ] Convertir los valores del campo *Ancho_Material* que se encuentra en pulgadas interpretados como texto a milimetros en valores numericos
+- [ ] En los registros mas recientes los valores del campo *Ancho_Material*, ya se encuentran en milimetros, se notará la deferencia ya que se visualizan valores altos.
 
 - [ ] Se pide sanitizar los valores del campo *Espesor* a que se manejen todos en la undia de de medida *micras*.
 - [ ] Convertir los valores del campo *Espesor* que se encuentra en mil (milesimas de pulgada) interpretados como texto a micras en valores numericos.
