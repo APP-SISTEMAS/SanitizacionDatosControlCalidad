@@ -39,3 +39,21 @@ Comenzaremos con el proceso de extrusion, en la tabla *SIQM_ENC_AUDI_EXT* hay do
 - [x] Puede hacer uso de la calculadora de conversion de unidades de medida do google para validar [https://convertlive.com/es/u/convertir/micr%C3%B3metros/a/mil%C3%A9simas-de-pulgada]
 [https://convertlive.com/es/u/convertir/pulgadas-de/a/mil%C3%ADmetros#1]
 
+### 2. Proceso de Laminado.   
+
+Continuamos con el proceso de Laminado, en la tabla *SIQM_ENC_AUDI_LAMI* hay dos campos *ANCHO_MATERIAL* y *ESPESOR* estos campos se llenan automaticamente desde la orden de produccion y ya tienen implicito en los valores las unidades de medida, para el **ANCHO_MATERIAL** son **milimetros**, **ESPESOR** son **micras**, sin embargo, en los primeros registros se encuentran valores con diferentes unidades de medida y ademas hay valores que son interpretados como texto y no como numero.
+
+```sql
+    SELECT ANCHO_MATERIAL, ESPESOR FROM SIQM_ENC_AUDI_LAMI
+
+    --Puede utilizar la funcion ISNUMERIC() para determinar si el valor es numerico, devuelve 1 en caso verdadero, 0 para falso.
+    SELECT  ANCHO_MATERIAL, ESPESOR, ISNUMERIC(ANCHO_MATERIAL),  ISNUMERIC(ESPESOR) FROM SIQM_ENC_AUDI_LAMI
+```
+- [ ] Se pide sanitizar los valores del campo *Ancho* a que se manejen todos en la unidad de de medida *mililmetros*.
+- [ ] Convertir los valores del campo *Ancho* que se encuentra en pulgadas interpretados como texto a milimetros en valores numericos
+- [ ] En los registros mas recientes los valores del campo *Ancho*, ya se encuentran en milimetros, se notará la deferencia ya que se visualizan valores altos.
+
+- [ ] Se pide sanitizar los valores del campo *Espesor* a que se manejen todos en la undia de de medida *micras*.
+- [ ] Convertir los valores del campo *Espesor* que se encuentra en mil (milesimas de pulgada) interpretados como texto a micras en valores numericos.
+- [ ] En los registros mas recientes los valores del campo *Espesor*, ya se encuentran en micras, se notará la deferencia ya que se visualizan valores altos.
+
