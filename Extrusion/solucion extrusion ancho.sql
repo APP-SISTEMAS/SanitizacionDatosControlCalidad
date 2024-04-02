@@ -1,4 +1,4 @@
-use APP_SISTEMAS
+
 
 /*EN BUEN ESTADO*/
 select ancho as conversion from SIQM_ENC_AUDI_EXT 
@@ -147,3 +147,11 @@ select ancho,1422 from SIQM_ENC_AUDI_EXT where ANCHO='56" (1422)'
 update SIQM_ENC_AUDI_EXT 
 set ANCHO=1422
 where ANCHO='56" (1422)'
+
+go 
+
+
+
+-- Convirtiendo el campo a tipo Numerico
+ALTER TABLE  SIQM_ENC_AUDI_EXT ALTER COLUMN ANCHO DECIMAL(15,2)
+GO 

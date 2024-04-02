@@ -1,4 +1,4 @@
-use APP_SISTEMAS
+
 
 /*NO TOCAR,en buen estado*/
 select ESPESOR,ESPESOR as valor from SIQM_ENC_AUDI_EXT 
@@ -52,3 +52,9 @@ update SIQM_ENC_AUDI_EXT
 set ESPESOR=substring(replace(replace(ESPESOR,'(',''),'micras','mc'),
 CHARINDEX('mc',replace(ESPESOR,'micras','mc'))-4,3)
 where ESPESOR like '%mc%' or ESPESOR like '%micras%'
+
+GO 
+
+
+ALTER TABLE SIQM_ENC_AUDI_EXT ALTER COLUMN ESPESOR DECIMAL(15,2)
+GO 
