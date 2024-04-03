@@ -1,16 +1,5 @@
 use APP_SISTEMAS
 
-/*NOTA:los comentarios con una tabulacion indican que son casos ya tratados y resueltos*/
-
-/*Ignorar*/
---SELECT ANCHO_MATERIAL, ESPESOR, ISNUMERIC(ANCHO_MATERIAL),  ISNUMERIC(ESPESOR)
---FROM SIQM_ENC_AUDI_LAMI
---group by ANCHO_MATERIAL, ESPESOR
-
---/*Total de casos campo Ancho_Material"*/
---SELECT ANCHO_MATERIAL, ISNUMERIC(ANCHO_MATERIAL)
---FROM SIQM_ENC_AUDI_LAMI
---group by ANCHO_MATERIAL
 
 SELECT ANCHO_MATERIAL
 FROM SIQM_ENC_AUDI_LAMI
@@ -20,8 +9,6 @@ except
 SELECT ANCHO_MATERIAL
 FROM (
 
-
-
 ----------------------------------------------------------------
 	/*En buen estado*/
 select ANCHO_MATERIAL,cast(ANCHO_MATERIAL as decimal(15,2)) as conversion 
@@ -30,12 +17,42 @@ where ISNUMERIC(ANCHO_MATERIAL)<>0 and CAST(ANCHO_MATERIAL as decimal(15,2))>100
 group by ANCHO_MATERIAL
 union all
 
--------------------------------------------------------------------
-/*Consulta guia de casos en general sin tratar que sean valores no numericos*/
---SELECT ANCHO_MATERIAL, ISNUMERIC(ANCHO_MATERIAL)
---FROM SIQM_ENC_AUDI_LAMI
---where ISNUMERIC(ANCHO_MATERIAL)=0 and ANCHO_MATERIAL is not null
---group by ANCHO_MATERIAL
+----------------------------------------------------------------------------------------
+	/*Caso especial 1000 (39  3/8")*/
+select ANCHO_MATERIAL,1000
+from SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL='1000 (39  3/8")'
+group by ANCHO_MATERIAL
+union all
+
+--/*Solucion*/
+--update SIQM_ENC_AUDI_LAMI
+--set ANCHO_MATERIAL=1000
+--where ANCHO_MATERIAL='1000 (39  3/8")'
+
+----------------------------------------------------------------------------------------
+	/*Caso especial 1000 (39  3/8")*/
+select ANCHO_MATERIAL,991 from SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL='991mm + 1085mm'
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial 34 7/8"/ 33 1/2"*/
+select ANCHO_MATERIAL,886 from SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL='34 7/8"  /  33 1/2"' or ANCHO_MATERIAL='34 7/8"/ 33 1/2"'
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial 35"/ 33 1/2"*/
+select ANCHO_MATERIAL,889 from SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL='35"/ 33 1/2"'
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial 26.77" / 27"*/
+select ANCHO_MATERIAL,680 from SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL='26.77" / 27"'
+union all
 
 ---------------------------------------------------------------------------
 	/*NULOS NOTA:QUITAR EL 0*/
@@ -43,6 +60,16 @@ select ANCHO_MATERIAL,0 from SIQM_ENC_AUDI_LAMI
 where ANCHO_MATERIAL is null
 group by ANCHO_MATERIAL
 union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial Pulgadas representadas con un " y divididas con un (Y)
+	ejemplo=26.77" Y 27"*/
+SELECT ANCHO_MATERIAL, round(left(ANCHO_MATERIAL,charindex('"',ANCHO_MATERIAL)-1)*25.4,0)
+FROM SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL like '%Y%'  
+group by ANCHO_MATERIAL
+union all
+
 -----------------------------------------------------------------------------
 	/*caso de numeros que falta convertir de pulgadas a milimetros*/
 SELECT ANCHO_MATERIAL,cast((ANCHO_MATERIAL*25.4) as decimal(15,2))
@@ -73,19 +100,22 @@ group by ANCHO_MATERIAL
 union all
 
 ---------------------------------------------------------------------------------
-	/*Caso especial 1000 (MM), presentaba un conflicto para el caso de abajo*/
---SELECT ANCHO_MATERIAL, 1000
---FROM SIQM_ENC_AUDI_LAMI
---where ANCHO_MATERIAL='1000 (MM)'
+	/*Caso especial 1000 (MM), presentaba un conflicto para el caso de abajo
+	NOTA: darle prioridad a ejecutar este update primero*/
+SELECT ANCHO_MATERIAL, 1000
+FROM SIQM_ENC_AUDI_LAMI
+where ANCHO_MATERIAL='1000 (MM)'
 --/*Solucion*/
 --update SIQM_ENC_AUDI_LAMI
 --set ANCHO_MATERIAL=1000
 --where ANCHO_MATERIAL='1000 (MM)'
+union all
 
 ---------------------------------------------------------------------------------------
-/*Caso de pulg y (mm)*/
+	/*Caso de pulg y (mm)*/
 SELECT ANCHO_MATERIAL,
-replace(replace(replace(right(ANCHO_MATERIAL,len(ANCHO_MATERIAL)-CHARINDEX('(',ANCHO_MATERIAL)+1),' ',''),'mm)',''),'(','')
+replace(replace(replace(right(ANCHO_MATERIAL,len(ANCHO_MATERIAL)-
+CHARINDEX('(',ANCHO_MATERIAL)+1),' ',''),'mm)',''),'(','')
 FROM SIQM_ENC_AUDI_LAMI 
 where ANCHO_MATERIAL like '%mm)%' --or ANCHO_MATERIAL like '%mm )%' 
 group by ANCHO_MATERIAL
@@ -101,32 +131,21 @@ group by ANCHO_MATERIAL
 union all
 
 ----------------------------------------------------------------------------------------
-/*Caso division de fracciones ya en milimetros, solo recortar los 4 primeros digitos*/
-select ANCHO_MATERIAL,(left(ANCHO_MATERIAL,charindex('/',ANCHO_MATERIAL)-1))
+	/*Caso division de fracciones ya en milimetros, solo recortar los 4 o 3 primeros digitos*/
+select ANCHO_MATERIAL,
+left((left(replace(ANCHO_MATERIAL,'MM',''),
+charindex('/',replace(ANCHO_MATERIAL,'MM',''))-1)),
+charindex('/',replace(ANCHO_MATERIAL,'MM',''))-1)
 from SIQM_ENC_AUDI_LAMI 
 where ANCHO_MATERIAL like '%/%' and ANCHO_MATERIAL not like '%(%' 
 and ANCHO_MATERIAL not like '%+%'  and ANCHO_MATERIAL not like '%"/%'
 and ANCHO_MATERIAL not like '%"'
-and ANCHO_MATERIAL like '% / %'
-and  len(substring(replace(ANCHO_MATERIAL,' ',''),0,CHARINDEX('/',replace(ANCHO_MATERIAL,' ',''),0)))=4
-and not len(substring(ANCHO_MATERIAL,0,CHARINDEX('/',ANCHO_MATERIAL,0)))=3
-
+and ANCHO_MATERIAL like '%__/__%'
 group by ANCHO_MATERIAL
 union all
 
 ----------------------------------------------------------------------------------------------------
-/*Caso division de fracciones ya en milimetros, solo recortar los 3 primeros digitos*/
-select ANCHO_MATERIAL,(left(ANCHO_MATERIAL,charindex('/',ANCHO_MATERIAL)-1))
-from SIQM_ENC_AUDI_LAMI 
-where ANCHO_MATERIAL like '%/%' and ANCHO_MATERIAL not like '%(%' and ANCHO_MATERIAL not like '% / %'
-and ANCHO_MATERIAL not like '%mm%' and ANCHO_MATERIAL not like '%+%'  and ANCHO_MATERIAL not like '%"/%'
-and not len(substring(replace(ANCHO_MATERIAL,' ',''),0,CHARINDEX('/',replace(ANCHO_MATERIAL,' ',''),0)))=4
-and  len(substring(ANCHO_MATERIAL,0,CHARINDEX('/',ANCHO_MATERIAL,0)))=3
-group by ANCHO_MATERIAL
-union all
-
----------------------------------------------------------------------------------------
-/*Caso division de fracciones mixtas en pulg*/
+	/*Caso division de fracciones mixtas en pulg*/
 select ANCHO_MATERIAL,
 round((left(ltrim(ANCHO_MATERIAL),2)+
 (substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''),
@@ -140,64 +159,5 @@ and ANCHO_MATERIAL not like '%mm%' and ANCHO_MATERIAL not like '%+%'  and ANCHO_
 and (ANCHO_MATERIAL like '% __/%' or ANCHO_MATERIAL like '% _/%')
 group by ANCHO_MATERIAL
 
-----------------------------------------------------------------------------------------
-/*Caso especial 1000 (39  3/8")*/
---select ANCHO_MATERIAL,1000
---from SIQM_ENC_AUDI_LAMI
---where ANCHO_MATERIAL='1000 (39  3/8")'
---group by ANCHO_MATERIAL
---/*Solucion*/
---update SIQM_ENC_AUDI_LAMI
---set ANCHO_MATERIAL=1000
---where ANCHO_MATERIAL='1000 (39  3/8")'
-
 ) as t
-/*
-union all
-
------------------------------------------------------------------------------------------------------
-/*caso especial*/
-select ANCHO_MATERIAL,(left(ltrim(ANCHO_MATERIAL),3))
-from SIQM_ENC_AUDI_LAMI 
-where ANCHO_MATERIAL not like '%___/___%' and ANCHO_MATERIAL not like '%(%' and ANCHO_MATERIAL not like '% / %'
- and ANCHO_MATERIAL not like '%+%'  and ANCHO_MATERIAL not like '%"/%'
-and not len(substring(replace(ANCHO_MATERIAL,' ',''),0,CHARINDEX('/',replace(ANCHO_MATERIAL,' ',''),0)))=4
-and  len(substring(ANCHO_MATERIAL,0,CHARINDEX('/',ANCHO_MATERIAL,0)))=3
-or ANCHO_MATERIAL like '% mm/%' or ANCHO_MATERIAL like '%mm /%' or ANCHO_MATERIAL like '%mm/_%' 
 group by ANCHO_MATERIAL
-
-union all
-
------------------------------------------------------------------------------------------------------
-/*caso especial*/
-select ANCHO_MATERIAL,(left(ltrim(ANCHO_MATERIAL),4))
-from SIQM_ENC_AUDI_LAMI 
-where ANCHO_MATERIAL not like '%___/___%' and ANCHO_MATERIAL not like '%(%' and ANCHO_MATERIAL not like '% / %'
- and ANCHO_MATERIAL not like '%+%'  and ANCHO_MATERIAL not like '%"/%'
-and len(substring(replace(ANCHO_MATERIAL,' ',''),0,CHARINDEX('/',replace(ANCHO_MATERIAL,' ',''),0)))=4
-and not len(substring(ANCHO_MATERIAL,0,CHARINDEX('/',ANCHO_MATERIAL,0)))=3
-or ANCHO_MATERIAL like '% mm/%' or ANCHO_MATERIAL like '%mm /%' or ANCHO_MATERIAL like '%mm/_%' 
-group by ANCHO_MATERIAL
-
-
- and (left(ltrim(ANCHO_MATERIAL),3))<>3
---select COD_PRODUCTO from SIQM_ENC_AUDI_LAMI 
---where ANCHO_MATERIAL='991mm + 1085mm' --ANCHO_MATERIAL='1000MM / 1030MM'-- or ANCHO_MATERIAL='34 7/8"/ 33 1/2"'
-
-/*Caso a definir xd*/
---SELECT ANCHO_MATERIAL, ISNUMERIC(ANCHO_MATERIAL)
---FROM SIQM_ENC_AUDI_LAMI
---where ISNUMERIC(ANCHO_MATERIAL)=0 and ANCHO_MATERIAL is not null
---group by ANCHO_MATERIAL
-
-/*SIN TRATAR*/
-/*Aqui estan los casos donde hay '+' y num/num*/
---SELECT ANCHO_MATERIAL, replace(replace(ANCHO_MATERIAL,'MM',''),'"','')ANCHO 
---FROM SIQM_ENC_AUDI_LAMI
---where ANCHO_MATERIAL like '%mm%' and ANCHO_MATERIAL not like '%(%'
---group by ANCHO_MATERIAL
-
-
-
-
-*/
