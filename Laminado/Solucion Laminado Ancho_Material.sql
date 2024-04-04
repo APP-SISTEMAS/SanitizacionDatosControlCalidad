@@ -37,6 +37,20 @@ update SIQM_ENC_AUDI_LAMI
 set ANCHO_MATERIAL=991
 where ANCHO_MATERIAL='991mm + 1085mm'
 
+----------------------------------------------------------------------------------------------------
+	/*Caso especial formato pulg pero en vez de un punto, tienen un espacio*/
+select ancho_material,
+round(cast(REPLACE(REPLACE(ancho_material,' ','.'),'"','')as float)*25.4,0)
+from SIQM_ENC_AUDI_lami where ANCHO_MATERIAL='20 7' or 
+ANCHO_MATERIAL='24 7' or ANCHO_MATERIAL='25 5' or ANCHO_MATERIAL='30 5'
+group by ANCHO_MATERIAL
+
+/*Solucion*/
+update SIQM_ENC_AUDI_LAMI
+set ANCHO_MATERIAL=round(cast(REPLACE(REPLACE(ancho_material,' ','.'),'"','')as float)*25.4,0)
+where ANCHO_MATERIAL='20 7' or 
+ANCHO_MATERIAL='24 7' or ANCHO_MATERIAL='25 5' or ANCHO_MATERIAL='30 5'
+
 ----------------------------------------------------------------------------------------
 	/*Caso especial 34 7/8"/ 33 1/2"*/
 select ANCHO_MATERIAL,886 from SIQM_ENC_AUDI_LAMI
@@ -217,10 +231,7 @@ and ANCHO_MATERIAL not like '%mm%' and ANCHO_MATERIAL not like '%+%'  and ANCHO_
 and (ANCHO_MATERIAL like '% __/%' or ANCHO_MATERIAL like '% _/%')
 
 
-/*NOTA: FALTA TRATAR LOS CASOS CON ESPACIOS*/
-
-/*
 go
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_EXT ALTER COLUMN ANCHO DECIMAL(15,2)
-GO */
+GO 
