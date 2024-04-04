@@ -158,6 +158,19 @@ where ANCHO_MATERIAL like '%/%' and ANCHO_MATERIAL not like '%(%' and ANCHO_MATE
 and ANCHO_MATERIAL not like '%mm%' and ANCHO_MATERIAL not like '%+%'  and ANCHO_MATERIAL not like '%"/%' 
 and (ANCHO_MATERIAL like '% __/%' or ANCHO_MATERIAL like '% _/%')
 group by ANCHO_MATERIAL
+union all
+----------------------------------------------------------------------------------------------------
+	/*Caso formato pulg pero en vez de un punto, tienen un espacio*/
+select ancho_material,
+round(cast(REPLACE(REPLACE(ancho_material,' ','.'),'"','')as float)*25.4,0)
+from SIQM_ENC_AUDI_lami where ANCHO_MATERIAL='20 7' or 
+ANCHO_MATERIAL='24 7' or ANCHO_MATERIAL='25 5' or ANCHO_MATERIAL='30 5'
+group by ANCHO_MATERIAL
 
+/*Solucion*/
+--update SIQM_ENC_AUDI_LAMI
+--set ANCHO_MATERIAL=round(cast(REPLACE(REPLACE(ancho_material,' ','.'),'"','')as float)*25.4,0)
+--where ANCHO_MATERIAL='20 7' or 
+--ANCHO_MATERIAL='24 7' or ANCHO_MATERIAL='25 5' or ANCHO_MATERIAL='30 5'
 ) as t
 group by ANCHO_MATERIAL
