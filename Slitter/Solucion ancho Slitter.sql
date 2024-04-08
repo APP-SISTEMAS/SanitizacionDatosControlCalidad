@@ -120,10 +120,10 @@ where ANCHO like '%mm(%' or ANCHO like '%mm (%' or ANCHO like '%mm  (%'
 	/*Caso division de fracciones mixtas en pulg*/
 select ANCHO,
 round((left(ltrim(ANCHO),2)+
-(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''))-2,2)/
-cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''))+1,2),'"','') as float)))
+(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''))-2,2)/
+cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''))+1,2),'"','') as float)))
 *25.4,0)
 from SIQM_ENC_AUDI_SLTR
 where ANCHO like '%/%' and ANCHO not like '%(%' and ANCHO not like '% / %'
@@ -134,10 +134,10 @@ group by ANCHO
 /*Solucion*/
 update SIQM_ENC_AUDI_SLTR
 set ANCHO=round((left(ltrim(ANCHO),2)+
-(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''))-2,2)/
-cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'¨',''))+1,2),'"','') as float)))
+(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''))-2,2)/
+cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho,'  ',' '),'  ',' '),'"',''),'Â¨',''))+1,2),'"','') as float)))
 *25.4,0)
 where ANCHO like '%/%' and ANCHO not like '%(%' and ANCHO not like '% / %'
 and ANCHO not like '%mm%' and ANCHO not like '%+%'  and ANCHO not like '%"/%' 
