@@ -4,17 +4,6 @@ use APP_SISTEMAS
 
 --SELECT  ANCHO  FROM SIQM_ENC_AUDI_IMP group by ANCHO
 
-/*Casos pendientes:
-40 3/4" (40.75)
-19.25 Y 21 
-24 13/16" (24.80)
-24.75 / (23.75)
-30 15/16" (30.90)
-1000 / 1085
-25.1/4"
-17.5" TUBO U
-20.25 Y 21
-*/
 
 SELECT ancho
 FROM SIQM_ENC_AUDI_IMP
@@ -44,6 +33,14 @@ union all
 select ANCHO,1010
 from SIQM_ENC_AUDI_IMP
 where ANCHO='1010mm 39.76"'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,445
+from SIQM_ENC_AUDI_IMP
+where ANCHO='17.51 445'
 group by ANCHO
 union all
 
@@ -107,5 +104,79 @@ FROM SIQM_ENC_AUDI_IMP
 where (ANCHO like '%mm%' and ANCHO not like '%(%')
 and ANCHO!='1010mm 39.76"'
 group by ancho
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,1035
+from SIQM_ENC_AUDI_IMP
+where ANCHO='40 3/4" (40.75)'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,489
+from SIQM_ENC_AUDI_IMP
+where ANCHO='19.25 Y 21 '
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,630
+from SIQM_ENC_AUDI_IMP
+where ANCHO='24 13/16" (24.80)'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,603
+from SIQM_ENC_AUDI_IMP
+where ANCHO='24.75 / (23.75)'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,785
+from SIQM_ENC_AUDI_IMP
+where ANCHO='30 15/16" (30.90)'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,514
+from SIQM_ENC_AUDI_IMP
+where ANCHO='20.25 Y 21'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,1000
+from SIQM_ENC_AUDI_IMP
+where ANCHO='1000 / 1085'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,445
+from SIQM_ENC_AUDI_IMP
+where ANCHO='17.5" TUBO U'
+group by ANCHO
+union all
+
+----------------------------------------------------------------------------------------
+	/*Caso especial */
+select ANCHO,641
+from SIQM_ENC_AUDI_IMP
+where ANCHO='25.1/4"'
+group by ANCHO
+
 
 ) as h
+

@@ -1,8 +1,3 @@
---/*Solucion*/
---update SIQM_ENC_AUDI_LAMI
---set ANCHO_MATERIAL=1000
---where ANCHO_MATERIAL='1000 (39  3/8")'
-
 use APP_SISTEMAS
 
 
