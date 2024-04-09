@@ -111,15 +111,15 @@ ANCHO_BOLSA not like '%+%'
 -----------------------------------------------------------------------------
 	/*Caso reemplazar las " y pasar a milimetros*/
 SELECT ANCHO_BOLSA,
-replace(replace(replace(ANCHO_BOLSA,'¨',''),'"',''),'"','')*25.4 as ANCHO
+replace(replace(replace(ANCHO_BOLSA,'ï¿½',''),'"',''),'"','')*25.4 as ANCHO
 FROM SIQM_ENC_AUDI_CONVE_A
-where (ANCHO_BOLSA like '%"' or ANCHO_BOLSA like '%¨') and isnumeric(REPLACE(replace(ANCHO_BOLSA,'¨',''),'"',''))=1
+where (ANCHO_BOLSA like '%"' or ANCHO_BOLSA like '%ï¿½') and isnumeric(REPLACE(replace(ANCHO_BOLSA,'ï¿½',''),'"',''))=1
 group by ANCHO_BOLSA
 
 /*Solucion*/
 update SIQM_ENC_AUDI_CONVE_A
-set ANCHO_BOLSA=replace(replace(replace(ANCHO_BOLSA,'¨',''),'"',''),'"','')*25.4 
-where (ANCHO_BOLSA like '%"' or ANCHO_BOLSA like '%¨') and isnumeric(REPLACE(replace(ANCHO_BOLSA,'¨',''),'"',''))=1
+set ANCHO_BOLSA=replace(replace(replace(ANCHO_BOLSA,'ï¿½',''),'"',''),'"','')*25.4 
+where (ANCHO_BOLSA like '%"' or ANCHO_BOLSA like '%ï¿½') and isnumeric(REPLACE(replace(ANCHO_BOLSA,'ï¿½',''),'"',''))=1
 
 ---------------------------------------------------------------------------------------
 	/*Caso de pulg y (mm)*/
@@ -153,10 +153,10 @@ where ANCHO_BOLSA like '%mm(%' or ANCHO_BOLSA like '%mm (%' or ANCHO_BOLSA like 
 	/*Caso division de fracciones mixtas en pulg*/
 select ANCHO_BOLSA,
 round((left(ltrim(ANCHO_BOLSA),2)+
-(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''))-2,2)/
-cast(replace(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''))+1,2),'"','') as float)))
+(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''))-2,2)/
+cast(replace(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''))+1,2),'"','') as float)))
 *25.4,0)
 from SIQM_ENC_AUDI_CONVE_A 
 where ANCHO_BOLSA like '%/%' and ANCHO_BOLSA not like '%(%' and ANCHO_BOLSA not like '% / %'
@@ -167,10 +167,10 @@ group by ANCHO_BOLSA
 /*Solucion*/
 update SIQM_ENC_AUDI_CONVE_A
 set ANCHO_BOLSA=round((left(ltrim(ANCHO_BOLSA),2)+
-(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''))-2,2)/
-cast(replace(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'¨',''))+1,2),'"','') as float)))
+(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''))-2,2)/
+cast(replace(substring(replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ANCHO_BOLSA,'  ',' '),'  ',' '),'"',''),'ï¿½',''))+1,2),'"','') as float)))
 *25.4,0)
 where ANCHO_BOLSA like '%/%' and ANCHO_BOLSA not like '%(%' and ANCHO_BOLSA not like '% / %'
 and ANCHO_BOLSA not like '%mm%' and ANCHO_BOLSA not like '%+%'  and ANCHO_BOLSA not like '%"/%' 
@@ -179,5 +179,5 @@ and (ANCHO_BOLSA like '% __/%' or ANCHO_BOLSA like '% _/%')
 
 go
 -- Convirtiendo el campo a tipo Numerico
-ALTER TABLE  SIQM_ENC_AUDI_EXT ALTER COLUMN ANCHO DECIMAL(15,2)
+ALTER TABLE  SIQM_ENC_AUDI_CONVE_A ALTER COLUMN ANCHO_BOLSA DECIMAL(15,2)
 GO 
