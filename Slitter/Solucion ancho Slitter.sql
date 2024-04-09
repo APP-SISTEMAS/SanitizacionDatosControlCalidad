@@ -181,5 +181,5 @@ where ANCHO like '%mm%' and ANCHO not like '%(%'
 
 go
 -- Convirtiendo el campo a tipo Numerico
-ALTER TABLE  SIQM_ENC_AUDI_EXT ALTER COLUMN ANCHO DECIMAL(15,2)
+ALTER TABLE  SIQM_ENC_AUDI_SLTR ALTER COLUMN ANCHO DECIMAL(15,2)
 GO 

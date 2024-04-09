@@ -92,3 +92,8 @@ update SIQM_ENC_AUDI_SLTR
 set ESPESOR=73.66
 where ESPESOR='2.9 (73.66 MICRAS)'
 
+
+go
+-- Convirtiendo el campo a tipo Numerico
+ALTER TABLE  SIQM_ENC_AUDI_SLTR ALTER COLUMN ESPESOR DECIMAL(15,2)
+GO 
