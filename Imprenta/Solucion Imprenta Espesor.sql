@@ -84,3 +84,8 @@ group by ESPESOR
 update SIQM_ENC_AUDI_IMP
 set ESPESOR=12
 where ESPESOR='0.4724 (12 MIC)'
+
+go
+-- Convirtiendo el campo a tipo Numerico
+ALTER TABLE  SIQM_ENC_AUDI_IMP ALTER COLUMN ESPESOR DECIMAL(15,2)
+GO 
