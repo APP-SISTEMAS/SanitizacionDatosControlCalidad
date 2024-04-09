@@ -206,10 +206,10 @@ and ANCHO_MATERIAL like '%__/__%'
 	/*Caso division de fracciones mixtas en pulg*/
 select ANCHO_MATERIAL,
 round((left(ltrim(ANCHO_MATERIAL),2)+
-(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''))-2,2)/
-cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''))+1,2),'"','') as float)))
+(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''))-2,2)/
+cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''))+1,2),'"','') as float)))
 *25.4,0)
 from SIQM_ENC_AUDI_LAMI 
 where ANCHO_MATERIAL like '%/%' and ANCHO_MATERIAL not like '%(%' and ANCHO_MATERIAL not like '% / %'
@@ -221,10 +221,10 @@ group by ANCHO_MATERIAL
 /*Solucion*/
 update SIQM_ENC_AUDI_LAMI 
 set ANCHO_MATERIAL=round((left(ltrim(ANCHO_MATERIAL),2)+
-(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''))-2,2)/
-cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''),
-CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'¨',''))+1,2),'"','') as float)))
+(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''))-2,2)/
+cast(replace(substring(replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''),
+CHARINDEX('/',replace(replace(REPLACE(REPLACE(ancho_material,'  ',' '),'  ',' '),'"',''),'ï¿½',''))+1,2),'"','') as float)))
 *25.4,0)
 where ANCHO_MATERIAL like '%/%' and ANCHO_MATERIAL not like '%(%' and ANCHO_MATERIAL not like '% / %'
 and ANCHO_MATERIAL not like '%mm%' and ANCHO_MATERIAL not like '%+%'  and ANCHO_MATERIAL not like '%"/%' 
@@ -233,5 +233,5 @@ and (ANCHO_MATERIAL like '% __/%' or ANCHO_MATERIAL like '% _/%')
 
 go
 -- Convirtiendo el campo a tipo Numerico
-ALTER TABLE  SIQM_ENC_AUDI_EXT ALTER COLUMN ANCHO DECIMAL(15,2)
+ALTER TABLE  SIQM_ENC_AUDI_LAMI ALTER COLUMN ANCHO_MATERIAL DECIMAL(15,2)
 GO 
