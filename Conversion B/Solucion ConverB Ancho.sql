@@ -1,4 +1,4 @@
-use APP_SISTEMAS
+
 
 ----------------------------------------------------------------
 	/*En buen estado*/
@@ -25,6 +25,8 @@ where ISNUMERIC(ANCHO_BOLSA)=1 and cast(ANCHO_BOLSA as float)<100
 
 
 go
+
+
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_CONVE_B ALTER COLUMN ANCHO_BOLSA DECIMAL(15,2)
 GO 

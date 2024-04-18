@@ -1,4 +1,3 @@
-use APP_SISTEMAS
 
 ----------------------------------------------------------------
 	/*En buen estado*/
@@ -232,6 +231,7 @@ and (ANCHO_MATERIAL like '% __/%' or ANCHO_MATERIAL like '% _/%')
 
 
 go
+
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_LAMI ALTER COLUMN ANCHO_MATERIAL DECIMAL(15,2)
 GO 

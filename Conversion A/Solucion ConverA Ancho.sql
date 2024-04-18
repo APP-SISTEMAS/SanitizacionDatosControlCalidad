@@ -1,4 +1,5 @@
-use APP_SISTEMAS
+
+
 ----------------------------------------------------------------
 	/*En buen estado*/
 select ANCHO_BOLSA,cast(ANCHO_BOLSA as decimal(15,2)) as conversion 
@@ -178,6 +179,12 @@ and (ANCHO_BOLSA like '% __/%' or ANCHO_BOLSA like '% _/%')
 
 
 go
+
+
+UPDATE  SIQM_ENC_AUDI_CONVE_A SET ANCHO_BOLSA  = '220.5'  WHERE ANCHO_BOLSA = '9¨' 
+GO 
+
+
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_CONVE_A ALTER COLUMN ANCHO_BOLSA DECIMAL(15,2)
 GO 

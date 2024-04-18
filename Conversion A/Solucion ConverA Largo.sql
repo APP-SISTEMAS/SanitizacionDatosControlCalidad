@@ -1,4 +1,3 @@
-use APP_SISTEMAS
 
 
 ----------------------------------------------------------------
@@ -262,6 +261,11 @@ and LARGO_BOLSA not like '%mm%' and LARGO_BOLSA not like '%+%'  and LARGO_BOLSA 
 and (LARGO_BOLSA like '% __/%' or LARGO_BOLSA like '% _/%')
 
 go
+
+
+UPDATE  SIQM_ENC_AUDI_CONVE_A SET LARGO_BOLSA  = '431.8'  WHERE LARGO_BOLSA = '17¨' 
+GO 
+
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_CONVE_A ALTER COLUMN LARGO_BOLSA DECIMAL(15,2)
 GO 

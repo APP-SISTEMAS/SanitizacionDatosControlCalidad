@@ -1,4 +1,3 @@
-use  APP_SISTEMAS
 
 
 
@@ -244,6 +243,8 @@ where ANCHO ='25.1/4"'
 
 
 go
+
+
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_IMP ALTER COLUMN ANCHO DECIMAL(15,2)
 GO 

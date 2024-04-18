@@ -1,4 +1,3 @@
-use APP_SISTEMAS
 
 -------------------------------------------------------------------
 /*NO TOCAR,en buen estado*/
@@ -56,8 +55,8 @@ group by ESPESOR
 
 /*Solucion*/
 update SIQM_ENC_AUDI_IMP
-set ESPESOR=trim(replace(replace(replace(trim(substring(replace(replace(ESPESOR,'(',''),'micras','mc'),
-CHARINDEX('mc',replace(trim(replace(ESPESOR,' ','')),'micras','mc'))-3,4)),'m',''),'l',''),'c',''))
+set ESPESOR=Ltrim(replace(replace(replace(Ltrim(substring(replace(replace(ESPESOR,'(',''),'micras','mc'),
+CHARINDEX('mc',replace(Ltrim(replace(ESPESOR,' ','')),'micras','mc'))-3,4)),'m',''),'l',''),'c',''))
 where (ESPESOR like '%mc%' or ESPESOR like '%micras%' ) 
 and ESPESOR!='0.79(20MICRAS)' and ESPESOR!='2.9 (73.66 MICRAS)'
 
@@ -86,6 +85,7 @@ set ESPESOR=12
 where ESPESOR='0.4724 (12 MIC)'
 
 go
+
 -- Convirtiendo el campo a tipo Numerico
 ALTER TABLE  SIQM_ENC_AUDI_IMP ALTER COLUMN ESPESOR DECIMAL(15,2)
 GO 

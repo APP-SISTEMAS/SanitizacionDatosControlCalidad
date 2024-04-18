@@ -1,4 +1,3 @@
-use APP_SISTEMAS
 
 
 -------------------------------------------------------------------
@@ -51,8 +50,8 @@ group by ESPESOR
 
 /*Solucion*/
 update SIQM_ENC_AUDI_LAMI
-set ESPESOR=replace(trim(substring(replace(replace(ESPESOR,'(',''),'micras','mc'),
-CHARINDEX('mc',replace(trim(ESPESOR),'micras','mc'))-5,5)),'m','')
+set ESPESOR=replace(Ltrim(substring(replace(replace(ESPESOR,'(',''),'micras','mc'),
+CHARINDEX('mc',replace(Ltrim(ESPESOR),'micras','mc'))-5,5)),'m','')
 where ESPESOR like '%mc%' or ESPESOR like '%micras%'
 
 -------------------------------------------------------------------
